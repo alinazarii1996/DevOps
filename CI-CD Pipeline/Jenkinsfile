@@ -1,1 +1,60 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_IMAGE = 'your-docker-image'
+        REGISTRY = 'docker.io'
+        KUBECONFIG = '/home/jenkins/.kube/config'  # Path to Kubernetes configuration
+    }
+    stages {
+        stage('Clone Repository') {
+            steps {
+                echo "Cloning repository..."
+                git 'https://github.com/your-repo/microservices.git'  # Clone the microservices repo
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    echo "Building Docker image..."
+                    docker.build("${DOCKER_IMAGE}")
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    echo "Pushing Docker image to registry..."
+                    docker.withRegistry("https://${REGISTRY}", 'docker-credentials') {
+                        docker.image("${DOCKER_IMAGE}").push('latest')
+                    }
+                }
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    echo "Deploying to Kubernetes..."
+                    sh 'kubectl apply -f kubernetes/deployment.yaml'  # Apply deployment YAML to the Kubernetes cluster
+                    sh 'kubectl apply -f kubernetes/service.yaml'     # Apply service YAML
+                }
+            }
+        }
+        stage('Verify Deployment') {
+            steps {
+                script {
+                    echo "Verifying deployment..."
+                    sh 'kubectl rollout status deployment/microservices-deployment'  # Check deployment status
+                }
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check the logs for errors.'
+        }
+    }
+}
 
