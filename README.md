@@ -79,4 +79,6 @@ To get started with the automation scripts in this repository, follow these step
     kubectl apply -f deployment.yaml
     ```
 
+## Contributing
+
 ## License
