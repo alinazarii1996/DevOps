@@ -66,6 +66,14 @@ Before submitting a pull request:
 
 ## License
 
+1. **Title & Description**: A brief introduction to the project and what it does.
+2. **Table of Contents**: A quick navigation guide for the reader.
+3. **Overview**: Explains the purpose of the repository and key features.
+4. **Technologies**: List of tools and technologies used in your project.
+5. **Getting Started**: Instructions to clone the repository and set up the environment.
+6. **Usage**: How users can use your automation scripts, including basic commands.
+7. **Contributing**: Guidelines on how others can contribute to your project.
+8. **License**: Legal information about the repository (MIT License or similar).
 By contributing to this repository, you agree that your contributions will be licensed under the same license as the repository (e.g., MIT).
 
 ---
