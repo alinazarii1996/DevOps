@@ -1,1 +1,39 @@
+---
+- name: Setup EC2 instance
+  hosts: aws_instances
+  become: yes
+  tasks:
+    - name: Update all packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Install NGINX
+      apt:
+        name: nginx
+        state: present
+
+    - name: Start Docker and NGINX services
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - docker
+        - nginx
+
+    - name: Configure firewall for NGINX
+      ufw:
+        rule: allow
+        name: 'Nginx Full'
+
+    - name: Test NGINX is running
+      uri:
+        url: http://localhost
+        status_code: 200
 
