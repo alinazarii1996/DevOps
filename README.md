@@ -7,8 +7,7 @@ This repository contains automation scripts used for managing infrastructure in 
 - [Technologies](#technologies)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+
 
 ## Overview
 This repository showcases various DevOps automation scripts that can be used to manage cloud infrastructure, deploy applications, and handle CI/CD pipelines. The scripts aim to simplify infrastructure management tasks and increase efficiency.
@@ -78,7 +77,3 @@ To get started with the automation scripts in this repository, follow these step
     ```bash
     kubectl apply -f deployment.yaml
     ```
-
-## Contributing
-
-## License
