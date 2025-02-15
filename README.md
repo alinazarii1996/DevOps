@@ -46,19 +46,35 @@ To get started with the automation scripts in this repository, follow these step
 
 ## Usage
 ### Example usage:
-1. **Terraform**: To provision cloud infrastructure using Terraform:
+1. Terraform Script
+- **main.tf**: A Terraform script to provision a basic EC2 instance in AWS. 
+  - To use:
     ```bash
     terraform init
     terraform apply
     ```
+ Configuration File for Terraform
+- **terraform.tfvars**: A configuration file to set variables for Terraform scripts.
+
    
-2. **Ansible**: To configure machines with Ansible:
+2. Ansible Playbook
+- **playbook.yml**: An Ansible playbook to install Nginx on a remote server.
+  - To use:
     ```bash
-    ansible-playbook -i inventory site.yml
+    ansible-playbook playbook.yml -i inventory
     ```
 
-### Docker & Kubernetes:
-You can also use the containerization scripts to deploy applications:
-```bash
-docker build -t my-app .
-kubectl apply -f deployment.yaml
+3. Dockerfile
+- **Dockerfile**: A simple Dockerfile to build a container with Nginx.
+  - To use:
+    ```bash
+    docker build -t nginx-container .
+    docker run -p 80:80 nginx-container
+    ```
+
+4. Kubernetes Deployment
+- **deployment.yaml**: A Kubernetes configuration to deploy Nginx in a cluster.
+  - To use:
+    ```bash
+    kubectl apply -f deployment.yaml
+    ```
