@@ -1,0 +1,19 @@
+# syntax=docker/dockerfile:1.7-labs
+FROM python:3.11-slim AS base
+WORKDIR /app
+ENV VENV=/venv PATH=/venv/bin:$PATH PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+RUN python -m venv $VENV && apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
+
+FROM base AS builder
+COPY requirements.txt .
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+FROM base AS runtime
+ARG APP_USER=appuser
+RUN useradd -m -s /bin/bash ${APP_USER}
+COPY --from=builder /venv /venv
+COPY app ./app
+USER ${APP_USER}
+EXPOSE 8000
+HEALTHCHECK --interval=30s --timeout=3s CMD python -c "import urllib.request as u; u.urlopen('http://127.0.0.1:8000/healthz').read() and print('ok')"
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
